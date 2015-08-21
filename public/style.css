@@ -1,0 +1,45 @@
+.header{
+	background: #000;
+	padding: 16px;
+}
+.header h1{
+	margin: 0;
+	color: white;
+}
+
+.col-input{
+	border-right: 1px solid #EEE;
+}
+
+.col-input .user-template, .col-input .cs-template{
+	display: none;
+}
+
+.col-input .conversation .chat{
+	margin: 8px 0;
+}
+.col-input .conversation .chat .name{
+	color: #09F;
+	font-weight: bold;
+}
+
+.col-input .conversation .cs .name {
+	color: red;
+}
+
+.col-input .user .mic{
+	width: 24px;
+	margin-left: 8px;
+}
+
+.col-input .remark{
+}
+
+#remark{
+	background-color: transparent;
+	border: 0;
+	width: 100%;
+	height: 100%;
+	resize: none;
+	outline: 0;
+}
