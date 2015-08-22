@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Department;
 use App\Http\Controllers\Controller;
 use App\Session;
 use Illuminate\Http\Request;
@@ -9,6 +10,27 @@ use Illuminate\Http\Request;
 class QuestionController extends Controller
 {
 	const ERROR_INVALID_SESSION = 'INVALID_SESSION';
+
+	public function init(Request $request){
+		\Illuminate\Support\Facades\Session::flush();
+
+		$session = new Session();
+		$session->CreateTime = time();
+		$session->save();
+
+		$departments = Department::where('Type', 'execution')
+								->orderBy('ID', 'ASC')
+								->get();
+		$retDepartments = [];
+		for ($i = 0, $l = count($departments); $i < $l; $i++){
+			$retDepartments[] = $departments[$i]->toObject();
+		}
+
+		return view('index', [
+			'sessionId' => $session->id,
+			'departments' => $retDepartments
+		]);
+	}
 
 	public function answer(Request $request){
 		$sessionId = $request->get('id');
@@ -27,20 +49,14 @@ class QuestionController extends Controller
 			$session->save();
 		}
 
+		$department = null;
+		if (property_exists($data, 'department')){
+			$department = $data->department;
+		}
+
 		return response()->success([
-			'response' => $data->response
-		]);
-	}
-
-	public function init(Request $request){
-		\Illuminate\Support\Facades\Session::flush();
-
-		$session = new Session();
-		$session->CreateTime = time();
-		$session->save();
-
-		return view('index', [
-			'sessionId' => $session->id
+			'response' => $data->response,
+			'department' => $department
 		]);
 	}
 
@@ -72,19 +88,30 @@ class QuestionController extends Controller
 		]
 	];
 
-	private $incidentType = [
-		'flooding'
-	];
-
 	private function getResponse($type){
 		return $this->responses[$type][array_rand($this->responses[$type])];
 	}
 
+	private function getDepartmentByName($name){
+		return Department::where('Name', $name)->first();
+	}
+
+	private function getDepartment($type){
+		switch ($type){
+			case 'flooding':
+				return $this->getDepartmentByName('新工處');
+		}
+	}
+
 	private function recogniseIncident($saidWord, Session $session){
 		if (mb_strpos($saidWord, '淹水') !== false){
-			if (strlen($session->location) == 0) {
+			if (mb_strlen($session->location) == 0) {
 				\Illuminate\Support\Facades\Session::put('incident.recognised', 'flooding');
-				return $this->respond('flooding-need-address');
+
+				return (object) [
+					'response' => $this->getResponse('flooding-need-address'),
+					'department' => $this->getDepartment('flooding')->toObject()
+				];
 			}else{
 				return $this->respond('thanks');
 			}

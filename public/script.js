@@ -8,10 +8,12 @@ $(function (){
 
 		newUtterance.lang = "zh-TW";
 
-		newUtterance.addEventListener('end', cb);
-
 		// Add this text to the utterance queue
 		window.speechSynthesis.speak(newUtterance);
+
+		if (cb) {
+			setTimeout(cb, textToSpeak.length / 2 * 1000);
+		}
 	}
 
 	var chat = {
@@ -49,12 +51,18 @@ $(function (){
 				"id": $(".conversation").attr("data-session-id"),
 				"saidWord": saidWord
 			}).success(function (res){
-				//console.log(res);
 				cs.find(".content").text(res.data.response);
 				chat.scrollToBottom();
 				speak(res.data.response, function (){
 					chat.newUserInput();
 				});
+
+				if (res.data.hasOwnProperty("department")){
+					var department = res.data.department;
+					if (department != null) {
+						$(".col-helps li[data-id=" + department.id + "]").addClass("active");
+					}
+				}
 			});
 		},
 
@@ -100,9 +108,11 @@ $(function (){
 
 
 	var resize = function (){
-		$(".conversation, .remark").css({
-			"height": (($(window).height() - $(".header").outerHeight()) / 2) + "px"
+		var half = (($(window).height() - $(".header").outerHeight()) / 2);
+		$(".conversation, .remark, .categories, .suggestions").css({
+			"height": half + "px"
 		});
+
 	};
 
 	$(window).resize(resize).load(resize);

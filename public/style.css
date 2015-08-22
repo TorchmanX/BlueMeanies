@@ -34,9 +34,21 @@
 .col-input .user .mic{
 	width: 24px;
 	margin-left: 8px;
+	padding: 4px;
+}
+
+.col-input .user .mic:hover {
+	background: #EEE;
 }
 
 .col-input .remark{
+	position: relative;
+}
+
+.col-input .remark .btn-save{
+	position: absolute;
+	bottom: 8px;
+	right: 8px;
 }
 
 #remark{
@@ -46,4 +58,17 @@
 	height: 100%;
 	resize: none;
 	outline: 0;
+}
+
+
+.col-helps .categories li{
+	list-style: none;
+	width: 150px;
+	float: left;
+	padding: 4px 0;
+	color: #999;
+}
+
+.col-helps .categories li.active{
+	color: #000;
 }

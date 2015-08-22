@@ -36,9 +36,26 @@
 
 						<textarea id="remark" placeholder="備注"></textarea>
 
+						<button type="button" class="btn btn-primary btn-save">Save</button>
+
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 col-helps">
+
+					<div class="categories">
+						<h2>執行機關</h2>
+
+						<ul>
+							<?php foreach ($departments AS $department): ?>
+							<li data-id="<?=$department->id?>"><?=$department->name?></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+					<div class="suggestions">
+						<h2>建議</h2>
+
+					</div>
+
 				</div>
 			</div>
 		</div>
