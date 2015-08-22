@@ -74,7 +74,7 @@ $(function (){
 				if (res.data.hasOwnProperty("category")){
 					var category = res.data.category;
 					if (category != null) {
-						for (var i = 0, l = category.length; i < l; i++) {
+						for (var i = category.length - 1; i >= 0; i--) {
 							var cat = category[i];
 							$(".categories li[data-id=" + cat + "]")
 								.detach()
@@ -87,7 +87,7 @@ $(function (){
 				if (res.data.hasOwnProperty("department")){
 					var department = res.data.department;
 					if (department != null) {
-						for (var i = 0, l = department.length; i < l; i++) {
+						for (var i = department.length - 1; i >= 0; i--) {
 							var dep = department[i];
 
 							$(".suggestions li[data-id=" + dep + "]")
