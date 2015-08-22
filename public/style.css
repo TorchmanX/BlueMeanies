@@ -15,6 +15,10 @@
 	display: none;
 }
 
+.col-input .conversation{
+	overflow-y: auto;
+}
+
 .col-input .conversation .chat{
 	margin: 8px 0;
 }
