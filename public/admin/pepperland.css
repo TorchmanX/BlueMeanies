@@ -1,0 +1,29 @@
+
+.gridrow {
+    height: 33%;
+    text-align: center;
+}
+
+.gridtop {
+    height: 70%;
+    text-align: center;
+
+}
+
+.gridbottom {
+    height: 30%;
+    text-align: center;
+}
+
+.img{
+	height: 80%;
+	width: 70%;
+	text-align: center;
+
+}
+
+.control{
+
+    margin: 2%;
+
+}

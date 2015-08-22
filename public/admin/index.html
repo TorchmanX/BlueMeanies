@@ -1,0 +1,40 @@
+
+<html>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+	$(function (){
+		$(".btn-staff").click(function (){
+			location.href = "/";
+		});
+		$(".btn-supervisor").click(function (){
+			location.href = "/admin/admin.html";
+		});
+	});
+</script>
+
+<link rel="stylesheet" href="pepperland.css">
+
+<body>
+
+<div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+  	<div class="row gridrow"></div>
+  	<div class="row gridrow">
+  		<input class="btn btn-success btn-lg btn-staff" type="button" value="Staff">
+  		<input class="btn btn-primary btn-lg btn-supervisor" type="button" value="Supervisor"></div>
+  	<div class="row gridrow"></div>
+  </div>
+  <div class="col-sm-4"></div>
+</div>
+
+
+</body>
+
+</html>
+
