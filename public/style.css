@@ -81,11 +81,21 @@
 }
 
 .col-helps .suggestions li{
-	width: 190px;
+	min-width: 190px;
+	padding-left: 4px;
 }
 
 .col-helps .categories li.active, .col-helps .suggestions li.active{
 	color: #000;
+}
+
+.col-helps .suggestions li.selected{
+	background: #EEE;
+	color: black
+}
+
+.col-helps .actions h4{
+	margin: 30px 0 10px 0;
 }
 
 .popover-template{

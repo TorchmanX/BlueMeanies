@@ -155,12 +155,16 @@ $(function (){
 
 
 	$(".suggestions li").click(function (){
-		$(this).popover({
-			"html": true,
-			"content": $(".popover-template").html(),
-			"trigger": "focus",
-			"placement": "auto top"
-		}).popover("toggle");
+		$(".suggestions li").removeClass("selected");
+		$(this).addClass("selected");
+
+		$(".actions h4").text($(this).text());
+		//$(this).popover({
+		//	"html": true,
+		//	"content": $(".popover-template").html(),
+		//	"trigger": "focus",
+		//	"placement": "auto top"
+		//}).popover("toggle");
 	});
 
 

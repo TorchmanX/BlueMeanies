@@ -19,7 +19,7 @@
 
 		<div class="container">
 			<div class="row">
-				<div class="col-md-5 col-input">
+				<div class="col-md-3 col-input">
 					<div class="conversation" data-session-id="<?=$sessionId?>">
 						<div class="chat user user-template active">
 							<span class="name">陳大文</span>
@@ -45,7 +45,7 @@
 
 					</div>
 				</div>
-				<div class="col-md-7 col-helps">
+				<div class="col-md-9 col-helps">
 
 					<div class="categories">
 						<h2>分類</h2>
@@ -56,14 +56,31 @@
 							<?php endforeach; ?>
 						</ul>
 					</div>
-					<div class="suggestions">
-						<h2>建議</h2>
 
-						<ul>
-							<?php foreach ($departments AS $department): ?>
-								<li data-id="<?=$department->id?>"><?=$department->name?></li>
-							<?php endforeach; ?>
-						</ul>
+					<div class="row row-suggestions">
+						<div class="col-md-8 suggestions">
+							<h2>建議</h2>
+
+							<ul>
+								<?php foreach ($departments AS $department): ?>
+									<li data-id="<?=$department->id?>"><?=$department->name?></li>
+								<?php endforeach; ?>
+							</ul>
+						</div>
+
+						<div class="col-md-4 actions">
+							<h4>部門</h4>
+
+							<div>
+								<a href="#">連繫</a>
+							</div>
+							<div>
+								<a href="#">查看圖表</a>
+							</div>
+							<div>
+								<a href="#">相關資料</a>
+							</div>
+						</div>
 					</div>
 
 				</div>
@@ -71,19 +88,19 @@
 		</div>
 
 
-		<div class="popover-template">
-			<div class="popover-content">
-				<div>
-					<a href="#">連繫</a>
-				</div>
-				<div>
-					<a href="#">查看圖表</a>
-				</div>
-				<div>
-					<a href="#">相關資料</a>
-				</div>
-			</div>
-		</div>
+<!--		<div class="popover-template">-->
+<!--			<div class="popover-content">-->
+<!--				<div>-->
+<!--					<a href="#">連繫</a>-->
+<!--				</div>-->
+<!--				<div>-->
+<!--					<a href="#">查看圖表</a>-->
+<!--				</div>-->
+<!--				<div>-->
+<!--					<a href="#">相關資料</a>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
 
 	</body>
 </html>
