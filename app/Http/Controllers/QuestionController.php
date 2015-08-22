@@ -27,6 +27,10 @@ class QuestionController extends Controller
 		'梓官區', '彌陀區', '永安區', '燕巢區', '田寮區', '阿蓮區', '茄萣區', '湖內區', '旗山區', '美濃區', '內門區', '杉林區', '甲仙區', '六龜區', '茂林區', '桃源區', '那瑪夏區',
 	];
 
+	private $badWordsPatterns = [
+		'我操', '操你', '我靠', '靠你的', '去你的', '去你媽', '三小'
+	];
+
 	public function init(Request $request){
 		\Illuminate\Support\Facades\Session::flush();
 
@@ -105,6 +109,11 @@ class QuestionController extends Controller
 			'我現在找人去，感謝你的匯報'
 		],
 
+		'no-bad-words' => [
+			'你再駡髒話我就掛線嚕',
+			'要不是我老闆站在我背後我早就駡死你'
+		],
+
 		'unknown' => [
 			'呀，你再講一次吧，我的腦子轉得沒那麼快',
 			'我聽不懂',
@@ -140,6 +149,16 @@ class QuestionController extends Controller
 		}
 	}
 
+	private function trainedRecogniseIncident($saidWord, Session $session){
+		$data = file_get_contents('');
+		$data = json_decode($data);
+
+		$category = $data->category;
+		$department = $data->department;
+
+
+	}
+
 	private function recogniseIncident($saidWord, Session $session){
 		if (mb_strpos($saidWord, '淹水') !== false){
 			if (mb_strlen($session->location) == 0) {
@@ -161,7 +180,7 @@ class QuestionController extends Controller
 	private function recogniseAddress($saidWord, Session $session){
 		for ($i = 0, $l = count($this->addressPatterns); $i < $l; $i++){
 			$pattern = $this->addressPatterns[$i];
-			if (mb_strpos($saidWord, $pattern)){
+			if (mb_strpos($saidWord, $pattern) !== false){
 				$session->Location = $saidWord;
 				$session->save();
 
@@ -172,6 +191,24 @@ class QuestionController extends Controller
 		}
 	}
 
+	private function recogniseBadWords($saidWord, Session $session){
+		if (mb_strlen($saidWord) > 6){
+			return null;
+		}
+
+		for ($i = 0, $l = count($this->badWordsPatterns); $i < $l; $i++){
+			$pattern = $this->badWordsPatterns[$i];
+
+			if (mb_strpos($saidWord, $pattern) !== false) {
+				return (object)[
+					'response' => $this->getResponse('no-bad-words')
+				];
+			}
+		}
+
+		return null;
+	}
+
 	private function analyse($saidWord, Session $session){
 		if (mb_strpos($saidWord, '你好嗎') !== false){
 			if (\Illuminate\Support\Facades\Session::get('greeting.before')){
@@ -180,6 +217,13 @@ class QuestionController extends Controller
 			\Illuminate\Support\Facades\Session::put('greeting.before', true);
 			return $this->respond('greeting');
 		}
+
+		$result = $this->recogniseBadWords($saidWord, $session);
+
+		if ($result != null){
+			return $result;
+		}
+
 
 		$result = $this->recogniseIncident($saidWord, $session);
 
