@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Department;
 use App\Http\Controllers\Controller;
 use App\Session;
@@ -34,15 +35,22 @@ class QuestionController extends Controller
 		$session->save();
 
 		$departments = Department::where('Type', 'execution')
-								->orderBy('ID', 'ASC')
-								->get();
+			->orderBy('ID', 'ASC')
+			->get();
 		$retDepartments = [];
 		for ($i = 0, $l = count($departments); $i < $l; $i++){
 			$retDepartments[] = $departments[$i]->toObject();
 		}
 
+		$categories = Category::orderBy('ID', 'ASC')->get();
+		$retCategories = [];
+		for ($i = 0, $l = count($categories); $i < $l; $i++){
+			$retCategories[] = $categories[$i]->toObject();
+		}
+
 		return view('index', [
 			'sessionId' => $session->id,
+			'categories' => $retCategories,
 			'departments' => $retDepartments
 		]);
 	}
@@ -60,7 +68,7 @@ class QuestionController extends Controller
 		$data = $this->analyse($saidWord, $session);
 
 		if (property_exists($data, 'category')) {
-			$session->Category = $data->category;
+			$session->Category = $data->category->id;
 			$session->save();
 		}
 
@@ -69,9 +77,15 @@ class QuestionController extends Controller
 			$department = $data->department;
 		}
 
+		$category = null;
+		if (property_exists($data, 'category')){
+			$category = $data->category;
+		}
+
 		return response()->success([
 			'response' => $data->response,
-			'department' => $department
+			'department' => $department,
+			'category' => $category
 		]);
 	}
 
@@ -111,10 +125,18 @@ class QuestionController extends Controller
 		return Department::where('Name', $name)->first();
 	}
 
+	private function getCategoryById($id){
+		return Category::where('ID', $id)->first();
+	}
+
+	private function getCategoryByName($name){
+		return Category::where('Name', $name)->first();
+	}
+
 	private function getDepartment($type){
 		switch ($type){
 			case 'flooding':
-				return $this->getDepartmentByName('新工處');
+				return $this->getDepartmentByName('臺北市文山區第二戶政事務所');
 		}
 	}
 
@@ -125,6 +147,7 @@ class QuestionController extends Controller
 
 				return (object) [
 					'response' => $this->getResponse('flooding-need-address'),
+					'category' => $this->getCategoryByName('衛生服務類')->toObject(),
 					'department' => $this->getDepartment('flooding')->toObject()
 				];
 			}else{

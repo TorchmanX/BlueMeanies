@@ -61,7 +61,7 @@
 }
 
 
-.col-helps .categories{
+.col-helps .categories, .col-helps .suggestions{
 	overflow-y: auto;
 }
 
@@ -71,7 +71,7 @@
 	padding-bottom: 10px;
 }
 
-.col-helps .categories li{
+.col-helps .categories li, .col-helps .suggestions li{
 	list-style: none;
 	width: 150px;
 	float: left;
@@ -79,6 +79,10 @@
 	color: #999;
 }
 
-.col-helps .categories li.active{
+.col-helps .suggestions li{
+	width: 190px;
+}
+
+.col-helps .categories li.active, .col-helps .suggestions li.active{
 	color: #000;
 }

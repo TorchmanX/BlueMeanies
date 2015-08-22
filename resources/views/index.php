@@ -46,14 +46,19 @@
 						<h2>分類</h2>
 
 						<ul>
-							<?php foreach ($departments AS $department): ?>
-							<li data-id="<?=$department->id?>"><?=$department->name?></li>
+							<?php foreach ($categories AS $category): ?>
+								<li data-id="<?=$category->id?>"><?=$category->name?></li>
 							<?php endforeach; ?>
 						</ul>
 					</div>
 					<div class="suggestions">
 						<h2>建議</h2>
 
+						<ul>
+							<?php foreach ($departments AS $department): ?>
+								<li data-id="<?=$department->id?>"><?=$department->name?></li>
+							<?php endforeach; ?>
+						</ul>
 					</div>
 
 				</div>

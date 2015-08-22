@@ -57,10 +57,23 @@ $(function (){
 					chat.newUserInput();
 				});
 
+				if (res.data.hasOwnProperty("category")){
+					var category = res.data.category;
+					if (category != null) {
+						$(".categories li[data-id=" + category.id + "]")
+							.detach()
+							.addClass("active")
+							.prependTo(".categories ul");
+					}
+				}
+
 				if (res.data.hasOwnProperty("department")){
 					var department = res.data.department;
 					if (department != null) {
-						$(".col-helps li[data-id=" + department.id + "]").addClass("active");
+						$(".suggestions li[data-id=" + department.id + "]")
+							.detach()
+							.addClass("active")
+							.prependTo(".suggestions ul");
 					}
 				}
 			});
