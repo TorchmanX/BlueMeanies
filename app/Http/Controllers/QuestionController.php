@@ -164,7 +164,7 @@ class QuestionController extends Controller
 
 	public function test(Request $request){
 		$question = $request->get('question');
-		$this->trainedRecogniseIncident($question, null);
+		$this->trainedRecogniseIncident($question, Session::find('82'));
 	}
 
 	private function trainedRecogniseIncident($saidWord, Session $session = null){
