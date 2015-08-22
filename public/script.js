@@ -30,6 +30,20 @@ $(function (){
 				.clone(true)
 				.removeClass("cs-template")
 				.find(".content")
+				.text(message)
+				.end()
+				.appendTo(".conversation");
+
+			speak(message);
+
+			chat.scrollToBottom();
+		},
+
+		newVoiceMessage: function (message){
+			$(".voice-template")
+				.clone(true)
+				.removeClass("voice-template")
+				.find(".content")
 					.text(message)
 				.end()
 				.appendTo(".conversation");
@@ -60,26 +74,33 @@ $(function (){
 				if (res.data.hasOwnProperty("category")){
 					var category = res.data.category;
 					if (category != null) {
-						$(".categories li[data-id=" + category + "]")
-							.detach()
-							.addClass("active")
-							.prependTo(".categories ul");
+						for (var i = 0, l = category.length; i < l; i++) {
+							var cat = category[i];
+							$(".categories li[data-id=" + cat + "]")
+								.detach()
+								.addClass("active")
+								.prependTo(".categories ul");
+						}
 					}
 				}
 
 				if (res.data.hasOwnProperty("department")){
 					var department = res.data.department;
 					if (department != null) {
-						$(".suggestions li[data-id=" + department + "]")
-							.detach()
-							.addClass("active")
-							.prependTo(".suggestions ul");
+						for (var i = 0, l = department.length; i < l; i++) {
+							var dep = department[i];
+
+							$(".suggestions li[data-id=" + dep + "]")
+								.detach()
+								.addClass("active")
+								.prependTo(".suggestions ul");
+						}
 					}
 				}
 			});
 		},
 
-		newUserInput: function (){
+		newUserInput: function (cb){
 			$(".user-template")
 				.clone(true)
 				.removeClass("user-template")
@@ -90,6 +111,22 @@ $(function (){
 
 						newRecognition.lang = "cmn-Hant-TW";
 
+						var inputted = function (saidWord){
+							$(ctrl).parent()
+								.find(".content")
+									.text(saidWord)
+								.end()
+								.removeClass("active")
+								.find(".mic")
+								.remove();
+
+							if (cb){
+								cb();
+							}
+
+							chat.newLoadingMessage(saidWord);
+						};
+
 						newRecognition.onresult = function (event){
 							var resultsLength = event.results.length -1 ;
 							// get length of latest results
@@ -97,16 +134,10 @@ $(function (){
 							// get last word detected
 							var saidWord = event.results[resultsLength][ArrayLength].transcript;
 
-							$(ctrl).parent()
-								.find(".content")
-									.text(saidWord)
-								.end()
-								.removeClass("active")
-								.find(".mic")
-									.remove();
-
-							chat.newLoadingMessage(saidWord);
+							inputted(saidWord);
 						};
+
+						window.inputted = inputted;
 
 						newRecognition.start();
 					})
@@ -116,8 +147,21 @@ $(function (){
 		}
 	};
 
-	chat.newMessage("您好！請問有什麼問題哦？");
-	chat.newUserInput();
+	chat.newVoiceMessage("您好！請問有什麼問題哦？");
+	chat.newUserInput(function (){
+		chat.newVoiceMessage("好的，我幫你轉接到客服去");
+	});
+
+
+
+	$(".suggestions li").click(function (){
+		$(this).popover({
+			"html": true,
+			"content": $(".popover-template").html(),
+			"trigger": "focus",
+			"placement": "auto top"
+		}).popover("toggle");
+	});
 
 
 	var resize = function (){

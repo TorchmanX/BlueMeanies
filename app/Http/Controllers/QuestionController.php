@@ -73,8 +73,8 @@ class QuestionController extends Controller
 
 		$category = null;
 		if (property_exists($data, 'category')) {
-			$session->Category = $data->category;
-			$session->save();
+//			$session->Category = $data->category;
+//			$session->save();
 			$category = $data->category;
 		}
 
@@ -132,6 +132,10 @@ class QuestionController extends Controller
 
 		'unknown-need-question' => [
 			'有什麼問題呢'
+		],
+
+		'more' => [
+			'...'
 		]
 	];
 
@@ -188,36 +192,41 @@ class QuestionController extends Controller
 		$category = $data->Category;
 		$departments = $data->Deps;
 
-		$depName = null;
-		if (count($departments) > 0){
-			$department = $this->getDepartmentById($departments[0]);
-			$depName = $department->Name;
-			$response = $this->getResponse('transfer');
-			$response = sprintf($response, $depName);
-		}else{
+//		$category = ['3', '4', '5'];
+//		$departments = ['2', '4', '5'];
 
-			foreach ($this->patterns AS $key => $config){
-				foreach ($config['keywords'] AS $keyword){
-					if (mb_strpos($saidWord, $keyword) !== false){
-						if (array_key_exists('need-address', $config)){
-							if (mb_strlen($session->location) == 0){
-								\Illuminate\Support\Facades\Session::put('incident.recognised', $key);
+//		$depName = null;
+//		if (count($departments) > 0){
+//			$department = $this->getDepartmentById($departments[0]);
+//			$depName = $department->Name;
+//			$response = $this->getResponse('transfer');
+//			$response = sprintf($response, $depName);
+//		}else{
+//
+//			foreach ($this->patterns AS $key => $config){
+//				foreach ($config['keywords'] AS $keyword){
+//					if (mb_strpos($saidWord, $keyword) !== false){
+//						if (array_key_exists('need-address', $config)){
+//							if (mb_strlen($session->location) == 0){
+//								\Illuminate\Support\Facades\Session::put('incident.recognised', $key);
+//
+//								return (object) [
+//									'response' => $this->getResponse($config['need-address']),
+//									'category' => $this->getCategoryByName($config['category'])->toObject()->id,
+//									'department' => $this->getDepartmentByName($config['department'])->toObject()->id
+//								];
+//							}else{
+//								return $this->respond('thanks');
+//							}
+//						}
+//					}
+//				}
+//			}
+//
+//			$response = $this->getResponse('cant-help');
+//		}
 
-								return (object) [
-									'response' => $this->getResponse($config['need-address']),
-									'category' => $this->getCategoryByName($config['category'])->toObject()->id,
-									'department' => $this->getDepartmentByName($config['department'])->toObject()->id
-								];
-							}else{
-								return $this->respond('thanks');
-							}
-						}
-					}
-				}
-			}
-
-			$response = $this->getResponse('cant-help');
-		}
+		$response = $this->getResponse('more');
 
 
 		return (object) [

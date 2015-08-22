@@ -31,6 +31,11 @@
 							<span class="name">客服李小姐</span>
 							<span class="content"><img class="loading" src="<?= asset('img/ajax-loader.gif') ?>" /></span>
 						</div>
+
+						<div class="chat voice voice-template">
+							<span class="name">語音</span>
+							<span class="content"></span>
+						</div>
 					</div>
 					<div class="remark">
 
@@ -61,6 +66,21 @@
 						</ul>
 					</div>
 
+				</div>
+			</div>
+		</div>
+
+
+		<div class="popover-template">
+			<div class="popover-content">
+				<div>
+					<a href="#">連繫</a>
+				</div>
+				<div>
+					<a href="#">查看圖表</a>
+				</div>
+				<div>
+					<a href="#">相關資料</a>
 				</div>
 			</div>
 		</div>

@@ -11,7 +11,7 @@
 	border-right: 1px solid #EEE;
 }
 
-.col-input .user-template, .col-input .cs-template{
+.col-input .user-template, .col-input .cs-template, .col-input .voice-template{
 	display: none;
 }
 
@@ -77,6 +77,7 @@
 	float: left;
 	padding: 4px 0;
 	color: #999;
+	cursor: pointer;
 }
 
 .col-helps .suggestions li{
@@ -85,4 +86,8 @@
 
 .col-helps .categories li.active, .col-helps .suggestions li.active{
 	color: #000;
+}
+
+.popover-template{
+	display: none
 }
