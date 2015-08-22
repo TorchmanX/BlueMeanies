@@ -140,7 +140,7 @@ class QuestionController extends Controller
 	}
 
 	private function getDepartmentByName($name){
-		return Department::where('Name', $name)->first();
+		return Department::where('Name', 'LIKE', '%'. $name . '%')->first();
 	}
 
 	private function getDepartmentById($id){
@@ -152,7 +152,7 @@ class QuestionController extends Controller
 	}
 
 	private function getCategoryByName($name){
-		return Category::where('Name', $name)->first();
+		return Category::where('Name', "LIKE", '%'. $name . '%')->first();
 	}
 
 	private function getDepartment($type){
@@ -195,6 +195,27 @@ class QuestionController extends Controller
 			$response = $this->getResponse('transfer');
 			$response = sprintf($response, $depName);
 		}else{
+
+			foreach ($this->patterns AS $key => $config){
+				foreach ($config['keywords'] AS $keyword){
+					if (mb_strpos($saidWord, $keyword) !== false){
+						if (array_key_exists('need-address', $config)){
+							if (mb_strlen($session->location) == 0){
+								\Illuminate\Support\Facades\Session::put('incident.recognised', $key);
+
+								return (object) [
+									'response' => $this->getResponse($config['need-address']),
+									'category' => $this->getCategoryByName($config['category'])->toObject()->id,
+									'department' => $this->getDepartmentByName($config['department'])->toObject()->id
+								];
+							}else{
+								return $this->respond('thanks');
+							}
+						}
+					}
+				}
+			}
+
 			$response = $this->getResponse('cant-help');
 		}
 
@@ -207,18 +228,15 @@ class QuestionController extends Controller
 	}
 
 	private $patterns = [
-		'bb' => [
-			'托育', '扶助', '輔具', '保母', '嬰幼兒', '教育',
+		'flooding' => [
+			'keywords' => ['淹水'],
+			'need-address' => 'flooding-need-address',
+			'category' => '公共建設',
+			'department' => '水利工程處'
 		]
 	];
 
 	private function recogniseIncident($saidWord, Session $session){
-		foreach ($this->patterns AS $key => $keywords){
-			foreach ($keywords AS $keyword){
-
-			}
-		}
-
 		if (mb_strpos($saidWord, '淹水') !== false){
 			if (mb_strlen($session->location) == 0) {
 				\Illuminate\Support\Facades\Session::put('incident.recognised', 'flooding');
@@ -226,7 +244,7 @@ class QuestionController extends Controller
 				return (object) [
 					'response' => $this->getResponse('flooding-need-address'),
 					'category' => $this->getCategoryByName('衛生服務類')->toObject(),
-					'department' => $this->getDepartment('flooding')->toObject()
+					'department' => $this->getDepartmentByName('水利工程處')->toObject()
 				];
 			}else{
 				return $this->respond('thanks');
@@ -284,11 +302,16 @@ class QuestionController extends Controller
 		}
 
 //		$result = $this->recogniseIncident($saidWord, $session);
-		$result = $this->trainedRecogniseIncident($saidWord, $session);
 
-		if ($result != null){
-			return $result;
+		$recognised = \Illuminate\Support\Facades\Session::get('incident.recognised');
+		if (! $recognised){
+			$result = $this->trainedRecogniseIncident($saidWord, $session);
+
+			if ($result != null){
+				return $result;
+			}
 		}
+
 
 		$result = $this->recogniseAddress($saidWord, $session);
 		if ($result != null){

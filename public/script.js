@@ -60,7 +60,7 @@ $(function (){
 				if (res.data.hasOwnProperty("category")){
 					var category = res.data.category;
 					if (category != null) {
-						$(".categories li[data-id=" + category.id + "]")
+						$(".categories li[data-id=" + category + "]")
 							.detach()
 							.addClass("active")
 							.prependTo(".categories ul");
@@ -70,7 +70,7 @@ $(function (){
 				if (res.data.hasOwnProperty("department")){
 					var department = res.data.department;
 					if (department != null) {
-						$(".suggestions li[data-id=" + department.id + "]")
+						$(".suggestions li[data-id=" + department + "]")
 							.detach()
 							.addClass("active")
 							.prependTo(".suggestions ul");
