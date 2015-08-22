@@ -12,7 +12,7 @@ $(function (){
 		window.speechSynthesis.speak(newUtterance);
 
 		if (cb) {
-			setTimeout(cb, textToSpeak.length / 2 * 1000);
+			setTimeout(cb, textToSpeak.length * 400);
 		}
 	}
 

@@ -61,6 +61,16 @@
 }
 
 
+.col-helps .categories{
+	overflow-y: auto;
+}
+
+.col-helps h2{
+	margin: 0;
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
 .col-helps .categories li{
 	list-style: none;
 	width: 150px;

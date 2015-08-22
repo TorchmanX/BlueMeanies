@@ -19,7 +19,7 @@
 
 		<div class="container">
 			<div class="row">
-				<div class="col-md-4 col-input">
+				<div class="col-md-5 col-input">
 					<div class="conversation" data-session-id="<?=$sessionId?>">
 						<div class="chat user user-template active">
 							<span class="name">陳大文</span>
@@ -28,7 +28,7 @@
 						</div>
 
 						<div class="chat cs cs-template">
-							<span class="name">客服陳小姐</span>
+							<span class="name">客服李小姐</span>
 							<span class="content"><img class="loading" src="<?= asset('img/ajax-loader.gif') ?>" /></span>
 						</div>
 					</div>
@@ -36,14 +36,14 @@
 
 						<textarea id="remark" placeholder="備注"></textarea>
 
-						<button type="button" class="btn btn-primary btn-save">Save</button>
+						<button type="button" class="btn btn-primary btn-save">儲存</button>
 
 					</div>
 				</div>
-				<div class="col-md-4 col-helps">
+				<div class="col-md-7 col-helps">
 
 					<div class="categories">
-						<h2>執行機關</h2>
+						<h2>分類</h2>
 
 						<ul>
 							<?php foreach ($departments AS $department): ?>
