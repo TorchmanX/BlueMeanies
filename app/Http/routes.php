@@ -13,4 +13,5 @@
 
 Route::get('/', 'QuestionController@init');
 Route::post('/answer', 'QuestionController@answer');
+Route::post('/test', 'QuestionController@test');
 

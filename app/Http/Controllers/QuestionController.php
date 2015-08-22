@@ -71,19 +71,16 @@ class QuestionController extends Controller
 
 		$data = $this->analyse($saidWord, $session);
 
+		$category = null;
 		if (property_exists($data, 'category')) {
-			$session->Category = $data->category->id;
+			$session->Category = $data->category;
 			$session->save();
+			$category = $data->category;
 		}
 
 		$department = null;
 		if (property_exists($data, 'department')){
 			$department = $data->department;
-		}
-
-		$category = null;
-		if (property_exists($data, 'category')){
-			$category = $data->category;
 		}
 
 		return response()->success([
@@ -103,6 +100,18 @@ class QuestionController extends Controller
 
 		'flooding-need-address' => [
 			'嘩。。。水呀！我現在找人去，給我淹水的地址'
+		],
+
+		'need-address' => [
+			'好，我知道啦，可以告訴我地址嗎？'
+		],
+
+		'transfer' => [
+			'好，我知道啦，我現在幫你接去 %s'
+		],
+
+		'cant-help' => [
+			'這個問題我好像幫不了你，你去找其他人吧'
 		],
 
 		'thanks' => [
@@ -134,6 +143,10 @@ class QuestionController extends Controller
 		return Department::where('Name', $name)->first();
 	}
 
+	private function getDepartmentById($id){
+		return Department::where('ID', $id)->first();
+	}
+
 	private function getCategoryById($id){
 		return Category::where('ID', $id)->first();
 	}
@@ -149,17 +162,63 @@ class QuestionController extends Controller
 		}
 	}
 
-	private function trainedRecogniseIncident($saidWord, Session $session){
-		$data = file_get_contents('');
-		$data = json_decode($data);
-
-		$category = $data->category;
-		$department = $data->department;
-
-
+	public function test(Request $request){
+		$question = $request->get('question');
+		$this->trainedRecogniseIncident($question, null);
 	}
 
+	private function trainedRecogniseIncident($saidWord, Session $session = null){
+		$postdata = http_build_query([
+			'question' => $saidWord
+		]);
+
+		$opts = array('http' =>
+			array(
+				'method'  => 'POST',
+				'header'  => 'Content-type: application/x-www-form-urlencoded',
+				'content' => $postdata
+			)
+		);
+
+		$context = stream_context_create($opts);
+
+		$data = file_get_contents('http://127.0.0.1:8088/api/sendQuestion', false, $context);
+		$data = json_decode($data);
+
+		$category = $data->Category;
+		$departments = $data->Deps;
+
+		$depName = null;
+		if (count($departments) > 0){
+			$department = $this->getDepartmentById($departments[0]);
+			$depName = $department->Name;
+			$response = $this->getResponse('transfer');
+			$response = sprintf($response, $depName);
+		}else{
+			$response = $this->getResponse('cant-help');
+		}
+
+
+		return (object) [
+			'response' => $response,
+			'category' => $category,
+			'department' => $departments
+		];
+	}
+
+	private $patterns = [
+		'bb' => [
+			'托育', '扶助', '輔具', '保母', '嬰幼兒', '教育',
+		]
+	];
+
 	private function recogniseIncident($saidWord, Session $session){
+		foreach ($this->patterns AS $key => $keywords){
+			foreach ($keywords AS $keyword){
+
+			}
+		}
+
 		if (mb_strpos($saidWord, '淹水') !== false){
 			if (mb_strlen($session->location) == 0) {
 				\Illuminate\Support\Facades\Session::put('incident.recognised', 'flooding');
@@ -210,7 +269,7 @@ class QuestionController extends Controller
 	}
 
 	private function analyse($saidWord, Session $session){
-		if (mb_strpos($saidWord, '你好嗎') !== false){
+		if (mb_strpos($saidWord, '你好嗎') !== false && mb_strlen($saidWord) <= 6){
 			if (\Illuminate\Support\Facades\Session::get('greeting.before')){
 				return $this->respond('greeting-twice');
 			}
@@ -224,8 +283,8 @@ class QuestionController extends Controller
 			return $result;
 		}
 
-
-		$result = $this->recogniseIncident($saidWord, $session);
+//		$result = $this->recogniseIncident($saidWord, $session);
+		$result = $this->trainedRecogniseIncident($saidWord, $session);
 
 		if ($result != null){
 			return $result;
