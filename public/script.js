@@ -97,6 +97,21 @@ $(function (){
 						}
 					}
 				}
+
+				if (res.data.hasOwnProperty("keyword")) {
+					var keyword = res.data.keyword;
+					var keywordStr = "";
+
+					if (keyword.length > 0) {
+						keywordStr = keyword[0];
+
+						for (var i = 1, l = keyword.length; i < l; i++) {
+							keywordStr += " " + keyword[i];
+						}
+					}
+
+					$("#remark").text($("#remark").text() + keywordStr + " ");
+				}
 			});
 		},
 
@@ -147,7 +162,7 @@ $(function (){
 		}
 	};
 
-	chat.newVoiceMessage("您好！請問有什麼問題哦？");
+	chat.newVoiceMessage("您好！請問有什麼問題？");
 	chat.newUserInput(function (){
 		chat.newVoiceMessage("好的，我幫你轉接到客服去");
 	});
@@ -163,6 +178,19 @@ $(function (){
 	$(".categories li").click(function (){
 		$(".categories li").removeClass("selected");
 		$(this).addClass("selected");
+	});
+
+
+	$(".actions .btn-chart").click(function (e){
+		$("#dlgChart").modal("show")
+			.find(".modal-body")
+				.empty()
+				.html("<iframe src='datamaps/node_modules/datamaps/src/examples/bubble-in-center.html' border='0'></iframe>")
+			.end();
+
+		e.stopPropagation();
+		e.preventDefault();
+		return false;
 	});
 
 

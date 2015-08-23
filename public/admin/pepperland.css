@@ -1,4 +1,7 @@
-
+a,a:hover{
+    color:#fff;
+    text-decoration: none
+}
 .gridrow {
     height: 33%;
     text-align: center;

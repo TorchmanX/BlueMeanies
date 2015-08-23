@@ -75,7 +75,7 @@
 								<a href="#">連繫</a>
 							</div>
 							<div>
-								<a href="#">查看圖表</a>
+								<a class="btn-chart" target="_blank" href="datamaps/node_modules/datamaps/src/examples/bubble-in-center.html">查看圖表</a>
 							</div>
 							<div>
 								<a href="#">相關資料</a>
@@ -87,20 +87,21 @@
 			</div>
 		</div>
 
+		<div id="dlgChart" class="modal fade">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">即時圖表</h4>
+					</div>
+					<div class="modal-body">
 
-<!--		<div class="popover-template">-->
-<!--			<div class="popover-content">-->
-<!--				<div>-->
-<!--					<a href="#">連繫</a>-->
-<!--				</div>-->
-<!--				<div>-->
-<!--					<a href="#">查看圖表</a>-->
-<!--				</div>-->
-<!--				<div>-->
-<!--					<a href="#">相關資料</a>-->
-<!--				</div>-->
-<!--			</div>-->
-<!--		</div>-->
-
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 	</body>
 </html>

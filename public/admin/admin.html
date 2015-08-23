@@ -1,47 +1,66 @@
 
 <html>
 <meta charset="utf-8">
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<!-- Latest compiled and minified JavaScript -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://pepperland.com/style.css">
+    <link rel="stylesheet" href="http://pepperland.com/admin/pepperland.css">
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script><style type="text/css"></style>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" href="pepperland.css">
 
+    <title>Pepperland</title>
+  </head>
   <script>
-  $(function() {
-    $( "#menu" ).menu({
-      items: "> :not(.ui-widget-header)"
-    });
-  });
+  
   </script>
 
 <body>
-
+<div class="header">
+      <h1><a href="http://pepperland.com/admin">Pepperland</a></h1>
+    </div>
 <div class="container-fluid control">
   <div class="col-md-3">
 
   	<div class="row">
-	<ul id="menu">
-	    <li class="ui-widget-header">消防</li>
-	    <li>救災人力分派</li>
-	    <li>報案地點分佈</li>
-	    <li>起火原因統計</li>
-	    <li class="ui-widget-header">颱風</li>    
-	    <li>路樹傾倒分佈</li>
-	    <li>災害種類統計</li>
-	    <li>救災資源分配</li>
-	    <li class="ui-widget-header">交通</li>    
-	    <li>交通流量分析</li>
-	    <li>路段坍崩回報</li>
-	    <li>交通違規分佈</li>
-  	</ul>
-  	</div>
+      <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+        <div class="btn-group" role="group">
+          <button id="btnGroupVerticalDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            消防
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1">
+            <li><a href="#">救災人力分派</a></li>
+            <li><a href="#">報案地點分佈</a></li>
+            <li><a href="#">起火原因統計</a></li>
+          </ul>
+        </div>
+
+        <div class="btn-group" role="group">
+          <button id="btnGroupVerticalDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            颱風
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1">
+            <li><a href="#">路樹傾倒分佈</a></li>
+            <li><a href="#">災害種類統計</a></li>
+            <li><a href="#">救災資源分配</a></li>
+          </ul>
+        </div>
+     <div class="btn-group" role="group">
+        <button id="btnGroupVerticalDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          交通
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1">
+          <li><a href="#">交通流量分析</a></li>
+          <li><a href="#">路段坍崩回報</a></li>
+          <li><a href="#">交通違規分佈</a></li>
+        </ul>
+      </div>
+    </div>
+ </div>
 
   </div>
   <div class="col-md-9">

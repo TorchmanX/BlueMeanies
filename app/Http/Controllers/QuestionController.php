@@ -83,10 +83,16 @@ class QuestionController extends Controller
 			$department = $data->department;
 		}
 
+		$keyword = null;
+		if (property_exists($data, 'keyword')){
+			$keyword = $data->keyword;
+		}
+
 		return response()->success([
 			'response' => $data->response,
 			'department' => $department,
-			'category' => $category
+			'category' => $category,
+			'keyword' => $keyword
 		]);
 	}
 
@@ -191,6 +197,7 @@ class QuestionController extends Controller
 
 		$category = $data->Category;
 		$departments = $data->Deps;
+		$keywords = $data->Keyword;
 
 //		$category = ['3', '4', '5'];
 //		$departments = ['2', '4', '5'];
@@ -232,7 +239,8 @@ class QuestionController extends Controller
 		return (object) [
 			'response' => $response,
 			'category' => $category,
-			'department' => $departments
+			'department' => $departments,
+			'keyword' => $keywords
 		];
 	}
 
