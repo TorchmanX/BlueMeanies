@@ -159,12 +159,10 @@ $(function (){
 		$(this).addClass("selected");
 
 		$(".actions h4").text($(this).text());
-		//$(this).popover({
-		//	"html": true,
-		//	"content": $(".popover-template").html(),
-		//	"trigger": "focus",
-		//	"placement": "auto top"
-		//}).popover("toggle");
+	});
+	$(".categories li").click(function (){
+		$(".categories li").removeClass("selected");
+		$(this).addClass("selected");
 	});
 
 

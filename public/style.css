@@ -80,6 +80,10 @@
 	cursor: pointer;
 }
 
+.col-helps .categories li{
+	padding: 4px 8px;
+}
+
 .col-helps .suggestions li{
 	min-width: 190px;
 	padding-left: 4px;
@@ -89,7 +93,7 @@
 	color: #000;
 }
 
-.col-helps .suggestions li.selected{
+.col-helps .suggestions li.selected, .col-helps .categories li.selected{
 	background: #EEE;
 	color: black
 }
